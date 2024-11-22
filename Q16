@@ -1,0 +1,61 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+        self.prev = None  # Referência para o nó anterior (inicialmente é None)
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+        self.tail = None  # O final (tail) também começa como None
+    
+    def is_empty(self):
+        return self.head is None  # A lista está vazia se o head for None
+    
+    def print_list_forward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        print("Lista (do início para o fim):")
+        while current:  # Percorre da cabeça para a cauda
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Fim da lista
+    
+    def print_list_backward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.tail
+        print("Lista (do fim para o início):")
+        while current:  # Percorre da cauda para a cabeça
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.prev
+        print("None")  # Fim da lista
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        
+        if self.is_empty():
+            self.head = self.tail = new_node
+        else:
+            self.tail.next = new_node  # O próximo do tail aponta para o novo nó
+            new_node.prev = self.tail  # O anterior do novo nó é o tail
+            self.tail = new_node  # O novo nó se torna o tail
+
+# Testando a impressão dos elementos da lista
+dll = DoublyLinkedList()
+
+# Inserir elementos no final
+dll.insert_at_end(10)
+dll.insert_at_end(20)
+dll.insert_at_end(30)
+dll.insert_at_end(40)
+dll.insert_at_end(50)
+
+# Imprimir os elementos da lista
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 30 <-> 40 <-> 50 <-> None
+dll.print_list_backward()  # Esperado: 50 <-> 40 <-> 30 <-> 20 <-> 10 <-> None

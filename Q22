@@ -1,0 +1,81 @@
+class DoublyNode:
+    def __init__(self, data=None):
+        """
+        Representa um nó em uma lista duplamente encadeada.
+        :param data: O valor armazenado no nó.
+        """
+        self.data = data
+        self.prev = None  # Ponteiro para o nó anterior
+        self.next = None  # Ponteiro para o próximo nó
+
+
+class OrderedDoublyLinkedList:
+    def __init__(self):
+        """
+        Inicializa uma lista duplamente encadeada ordenada.
+        """
+        self.head = None  # Início da lista
+
+    def is_empty(self):
+        """
+        Verifica se a lista está vazia.
+        :return: True se a lista estiver vazia, caso contrário False.
+        """
+        return self.head is None
+
+    def insert_ordered(self, value):
+        """
+        Insere um elemento na lista de forma ordenada.
+        :param value: O valor a ser inserido na lista.
+        """
+        new_node = DoublyNode(value)
+
+        # Caso especial: lista vazia ou valor menor que o primeiro nó
+        if self.is_empty() or self.head.data >= value:
+            new_node.next = self.head  # O próximo aponta para o head atual
+            if self.head:  # Ajusta o ponteiro anterior do head, se existir
+                self.head.prev = new_node
+            self.head = new_node  # O novo nó se torna o head
+            return
+
+        # Percorre a lista para encontrar a posição correta
+        current = self.head
+        while current.next and current.next.data < value:
+            current = current.next
+
+        # Insere o novo nó após o nó atual
+        new_node.next = current.next  # Aponta para o próximo do atual
+        if current.next:  # Ajusta o ponteiro anterior do próximo nó, se existir
+            current.next.prev = new_node
+        current.next = new_node  # Ajusta o próximo do nó atual
+        new_node.prev = current  # Ajusta o anterior do novo nó
+
+    def print_list(self):
+        """
+        Imprime os elementos da lista duplamente encadeada.
+        """
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+
+        current = self.head
+        print("Lista ordenada (do início ao fim): ", end="")
+        while current:
+            print(current.data, end=" <-> ")
+            current = current.next
+        print("None")  # Indica o final da lista
+
+
+# Teste do código
+if __name__ == "__main__":
+    ordered_dll = OrderedDoublyLinkedList()
+
+    # Inserir elementos na lista
+    ordered_dll.insert_ordered(10)
+    ordered_dll.insert_ordered(30)
+    ordered_dll.insert_ordered(20)
+    ordered_dll.insert_ordered(40)
+    ordered_dll.insert_ordered(25)
+
+    # Imprimir a lista
+    ordered_dll.print_list()  # Saída esperada: 10 <-> 20 <-> 25 <-> 30 <-> 40 <-> None

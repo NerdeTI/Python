@@ -1,0 +1,105 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+        self.prev = None  # Referência para o nó anterior (inicialmente é None)
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+        self.tail = None  # O final (tail) também começa como None
+    
+    def is_empty(self):
+        return self.head is None  # A lista está vazia se o head for None
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o dado fornecido
+        if self.is_empty():  # Se a lista está vazia
+            self.head = new_node  # O novo nó será a cabeça
+            self.tail = new_node  # E também a cauda
+        else:
+            self.tail.next = new_node  # O próximo nó da cauda atual será o novo nó
+            new_node.prev = self.tail  # O anterior do novo nó será a cauda atual
+            self.tail = new_node  # Atualiza a cauda para o novo nó
+    
+    def remove_from_position(self, position):
+        if self.is_empty():  # Se a lista estiver vazia, não há nada para remover
+            print("A lista está vazia. Não há elementos para remover.")
+            return
+        
+        current = self.head
+        index = 0
+        
+        # Localiza o nó na posição especificada
+        while current and index < position:
+            current = current.next
+            index += 1
+        
+        # Se a posição estiver fora do alcance da lista
+        if current is None:
+            print("Posição fora do alcance da lista.")
+            return
+        
+        # Caso o nó a ser removido seja o primeiro (head)
+        if current == self.head:
+            self.head = current.next  # O head passa a ser o próximo nó
+            if self.head:  # Se houver um nó após o head
+                self.head.prev = None  # O novo head não tem nó anterior
+            else:  # Se não houver mais elementos
+                self.tail = None  # A lista ficará vazia
+
+        # Caso o nó a ser removido seja o último (tail)
+        elif current == self.tail:
+            self.tail = current.prev  # O tail passa a ser o nó anterior
+            self.tail.next = None  # O novo tail não tem nó seguinte
+
+        # Caso o nó esteja no meio da lista
+        else:
+            current.prev.next = current.next  # O anterior aponta para o próximo
+            current.next.prev = current.prev  # O próximo aponta para o anterior
+
+        # Libera a referência ao nó removido
+        current = None
+    
+    def print_list_forward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        while current:  # Percorre da cabeça para a cauda
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Fim da lista
+    
+    def print_list_backward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.tail
+        while current:  # Percorre da cauda para a cabeça
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.prev
+        print("None")  # Fim da lista
+
+# Testando a remoção de um elemento de uma posição específica
+dll = DoublyLinkedList()
+
+# Inserir elementos no final
+dll.insert_at_end(10)
+dll.insert_at_end(20)
+dll.insert_at_end(30)
+dll.insert_at_end(40)
+dll.insert_at_end(50)
+
+# Imprimindo a lista antes de remover um elemento
+print("Lista (do início para o fim):")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 30 <-> 40 <-> 50 <-> None
+
+# Remover o elemento da posição 2 (terceiro elemento: 30)
+dll.remove_from_position(2)
+
+# Imprimindo a lista após a remoção do elemento
+print("Lista (do início para o fim) após remover o elemento da posição 2:")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 40 <-> 50 <-> None

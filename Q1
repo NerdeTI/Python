@@ -1,0 +1,15 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+    
+    def is_empty(self):
+        return self.head is None  # Retorna True se a lista estiver vazia
+
+# Testando a criação de uma lista vazia
+lista = LinkedList()
+print("Lista vazia:", lista.is_empty())  # Deve retornar True

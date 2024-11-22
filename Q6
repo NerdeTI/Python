@@ -1,0 +1,57 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+    
+    def is_empty(self):
+        return self.head is None  # Retorna True se a lista estiver vazia
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o valor fornecido
+        if self.is_empty():  # Se a lista estiver vazia, o novo nó será o head
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:  # Percorre até o último nó
+                current = current.next
+            current.next = new_node  # O último nó aponta para o novo nó
+    
+    def search(self, target):
+        current = self.head
+        while current:  # Percorre toda a lista
+            if current.data == target:  # Se o valor do nó for igual ao alvo
+                return current  # Retorna o nó encontrado
+            current = current.next
+        return None  # Se o alvo não for encontrado, retorna None
+    
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")  # Fim da lista
+
+# Testando a busca de um elemento na lista
+lista = LinkedList()
+lista.insert_at_end(10)  # Inserir 10 no final
+lista.insert_at_end(20)  # Inserir 20 no final
+lista.insert_at_end(30)  # Inserir 30 no final
+print("Lista:")
+lista.print_list()  # Esperado: 10 -> 20 -> 30 -> None
+
+# Buscando elementos
+search_result = lista.search(20)  # Procurar o valor 20
+if search_result:
+    print(f"Elemento encontrado: {search_result.data}")
+else:
+    print("Elemento não encontrado.")
+
+search_result = lista.search(40)  # Procurar o valor 40
+if search_result:
+    print(f"Elemento encontrado: {search_result.data}")
+else:
+    print("Elemento não encontrado.")

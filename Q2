@@ -1,0 +1,30 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+    
+    def is_empty(self):
+        return self.head is None  # Retorna True se a lista estiver vazia
+    
+    def insert_at_beginning(self, data):
+        new_node = Node(data)  # Cria um novo nó com o valor fornecido
+        new_node.next = self.head  # Faz o próximo do novo nó apontar para o antigo head
+        self.head = new_node  # O novo nó se torna o novo head da lista
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")  # Fim da lista
+
+# Testando a inserção de elementos no início
+lista = LinkedList()
+lista.insert_at_beginning(10)  # Inserir 10 no início
+lista.insert_at_beginning(20)  # Inserir 20 no início
+lista.insert_at_beginning(30)  # Inserir 30 no início
+lista.print_list()  # Esperado: 30 -> 20 -> 10 -> None

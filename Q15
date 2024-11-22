@@ -1,0 +1,83 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+        self.prev = None  # Referência para o nó anterior (inicialmente é None)
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+        self.tail = None  # O final (tail) também começa como None
+    
+    def is_empty(self):
+        return self.head is None  # A lista está vazia se o head for None
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o dado fornecido
+        if self.is_empty():  # Se a lista está vazia
+            self.head = new_node  # O novo nó será a cabeça
+            self.tail = new_node  # E também a cauda
+        else:
+            self.tail.next = new_node  # O próximo nó da cauda atual será o novo nó
+            new_node.prev = self.tail  # O anterior do novo nó será a cauda atual
+            self.tail = new_node  # Atualiza a cauda para o novo nó
+    
+    def search(self, value):
+        current = self.head
+        while current:
+            if current.data == value:  # Se o valor do nó for o que procuramos
+                return current  # Retorna o ponteiro para o nó encontrado
+            current = current.next  # Move para o próximo nó
+        return None  # Retorna None se o valor não for encontrado
+    
+    def print_list_forward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        while current:  # Percorre da cabeça para a cauda
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Fim da lista
+    
+    def print_list_backward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.tail
+        while current:  # Percorre da cauda para a cabeça
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.prev
+        print("None")  # Fim da lista
+
+# Testando a busca por um elemento
+dll = DoublyLinkedList()
+
+# Inserir elementos no final
+dll.insert_at_end(10)
+dll.insert_at_end(20)
+dll.insert_at_end(30)
+dll.insert_at_end(40)
+dll.insert_at_end(50)
+
+# Imprimindo a lista
+print("Lista (do início para o fim):")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 30 <-> 40 <-> 50 <-> None
+
+# Buscar um elemento (exemplo: 30)
+elemento = dll.search(30)
+
+if elemento:
+    print(f"Elemento {elemento.data} encontrado na lista.")
+else:
+    print("Elemento não encontrado na lista.")
+
+# Buscar um elemento inexistente (exemplo: 100)
+elemento = dll.search(100)
+
+if elemento:
+    print(f"Elemento {elemento.data} encontrado na lista.")
+else:
+    print("Elemento não encontrado na lista.")

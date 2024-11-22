@@ -1,0 +1,75 @@
+class Node:
+    def __init__(self, data=None):
+        """
+        Representa um nó em uma lista encadeada.
+        :param data: O valor armazenado no nó.
+        """
+        self.data = data  # Valor do nó
+        self.next = None  # Ponteiro para o próximo nó
+
+
+class OrderedLinkedList:
+    def __init__(self):
+        """
+        Inicializa uma lista simplesmente encadeada ordenada.
+        """
+        self.head = None  # Inicialmente, a lista está vazia
+
+    def is_empty(self):
+        """
+        Verifica se a lista está vazia.
+        :return: True se a lista estiver vazia, caso contrário False.
+        """
+        return self.head is None
+
+    def insert_ordered(self, value):
+        """
+        Insere um elemento na lista de forma ordenada.
+        :param value: O valor a ser inserido na lista.
+        """
+        new_node = Node(value)
+
+        # Caso especial: lista vazia ou valor menor que o primeiro nó
+        if self.is_empty() or self.head.data >= value:
+            new_node.next = self.head
+            self.head = new_node
+            return
+
+        # Percorre a lista para encontrar a posição correta
+        current = self.head
+        while current.next and current.next.data < value:
+            current = current.next
+
+        # Insere o novo nó após o nó atual
+        new_node.next = current.next
+        current.next = new_node
+
+    def print_list(self):
+        """
+        Imprime os elementos da lista encadeada.
+        """
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+
+        current = self.head
+        print("Lista ordenada: ", end="")
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")  # Indica o final da lista
+
+
+# Teste do código
+if __name__ == "__main__":
+    ordered_list = OrderedLinkedList()
+
+    # Inserir elementos na lista
+    ordered_list.insert_ordered(10)
+    ordered_list.insert_ordered(30)
+    ordered_list.insert_ordered(20)
+    ordered_list.insert_ordered(40)
+    ordered_list.insert_ordered(25)
+
+    # Imprimir a lista
+    ordered_list.print_list()  # Saída esperada: Lista ordenada: 10 -> 20 -> 25 -> 30 -> 40 -> None

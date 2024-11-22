@@ -1,0 +1,62 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+        self.prev = None  # Referência para o nó anterior (inicialmente é None)
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+        self.tail = None  # O final (tail) também começa como None
+    
+    def is_empty(self):
+        return self.head is None  # A lista está vazia se o head for None
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o valor fornecido
+        
+        if self.is_empty():  # Se a lista estiver vazia
+            self.head = new_node  # O novo nó será o head
+            self.tail = new_node  # O novo nó também será o tail, pois é o único nó
+        else:
+            self.tail.next = new_node  # O próximo do tail será o novo nó
+            new_node.prev = self.tail  # O anterior do novo nó será o antigo tail
+            self.tail = new_node  # O tail agora será o novo nó
+
+    def print_list_forward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        while current:  # Percorre da cabeça para a cauda
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Fim da lista
+    
+    def print_list_backward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.tail
+        while current:  # Percorre da cauda para a cabeça
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.prev
+        print("None")  # Fim da lista
+
+# Testando a inserção no final da lista duplamente encadeada
+dll = DoublyLinkedList()
+
+# Inserir elementos no final
+dll.insert_at_end(10)
+dll.insert_at_end(20)
+dll.insert_at_end(30)
+
+# Imprimindo a lista do início para o fim
+print("Lista (do início para o fim):")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 30 <-> None
+
+# Imprimindo a lista do fim para o início
+print("Lista (do fim para o início):")
+dll.print_list_backward()  # Esperado: 30 <-> 20 <-> 10 <-> None

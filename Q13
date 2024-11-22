@@ -1,0 +1,76 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+        self.prev = None  # Referência para o nó anterior (inicialmente é None)
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+        self.tail = None  # O final (tail) também começa como None
+
+    def is_empty(self):
+        return self.head is None  # A lista está vazia se o head for None
+
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o dado fornecido
+        if self.is_empty():  # Se a lista está vazia
+            self.head = new_node  # O novo nó será a cabeça
+            self.tail = new_node  # E também a cauda
+        else:
+            self.tail.next = new_node  # O próximo nó da cauda atual será o novo nó
+            new_node.prev = self.tail  # O anterior do novo nó será a cauda atual
+            self.tail = new_node  # Atualiza a cauda para o novo nó
+
+    def remove_from_end(self):
+        if self.is_empty():  # Se a lista estiver vazia, não há nada para remover
+            print("A lista está vazia. Não há elementos para remover.")
+            return
+        
+        if self.head == self.tail:  # Se há apenas um nó na lista
+            self.head = None  # A lista ficará vazia
+            self.tail = None  # O tail também se torna None
+        else:
+            self.tail = self.tail.prev  # O tail será o penúltimo nó
+            self.tail.next = None  # O próximo do novo tail será None
+
+    def print_list_forward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        while current:  # Percorre da cabeça para a cauda
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Fim da lista
+
+    def print_list_backward(self):
+        if self.is_empty():
+            print("A lista está vazia.")
+            return
+        
+        current = self.tail
+        while current:  # Percorre da cauda para a cabeça
+            print(current.data, end=" <-> ")  # Imprime o valor do nó
+            current = current.prev
+        print("None")  # Fim da lista
+
+# Testando a remoção do último elemento
+dll = DoublyLinkedList()
+
+# Inserir elementos no final
+dll.insert_at_end(10)
+dll.insert_at_end(20)
+dll.insert_at_end(30)
+
+# Imprimindo a lista antes de remover o último elemento
+print("Lista (do início para o fim):")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> 30 <-> None
+
+# Remover o último elemento
+dll.remove_from_end()
+
+# Imprimindo a lista após a remoção do último elemento
+print("Lista (do início para o fim) após remover o último elemento:")
+dll.print_list_forward()  # Esperado: 10 <-> 20 <-> None

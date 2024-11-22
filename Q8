@@ -1,0 +1,56 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data  # Armazena o valor do nó
+        self.next = None  # Referência para o próximo nó (inicialmente é None)
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # A lista começa vazia, então a cabeça (head) é None
+    
+    def is_empty(self):
+        return self.head is None  # Retorna True se a lista estiver vazia, caso contrário, False
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)  # Cria um novo nó com o valor fornecido
+        if self.is_empty():  # Se a lista estiver vazia, o novo nó será o head
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:  # Percorre até o último nó
+                current = current.next
+            current.next = new_node  # O último nó aponta para o novo nó
+    
+    def print_list(self):
+        if self.is_empty():  # Se a lista estiver vazia, não há o que imprimir
+            print("A lista está vazia.")
+            return
+        
+        current = self.head
+        while current:  # Percorre toda a lista
+            print(current.data, end=" -> ")  # Imprime o valor do nó
+            current = current.next
+        print("None")  # Indica o fim da lista
+
+# Testando a função is_empty
+lista = LinkedList()
+
+# Verificando se a lista está vazia
+if lista.is_empty():
+    print("A lista está vazia.")
+else:
+    print("A lista não está vazia.")
+
+# Inserindo elementos na lista
+lista.insert_at_end(10)
+lista.insert_at_end(20)
+lista.insert_at_end(30)
+
+# Verificando novamente se a lista está vazia
+if lista.is_empty():
+    print("A lista está vazia.")
+else:
+    print("A lista não está vazia.")
+
+# Imprimindo a lista
+print("Lista:")
+lista.print_list()  # Esperado: 10 -> 20 -> 30 -> None
